@@ -16,12 +16,12 @@ export default class Parse {
     }
 
     async getTemplate() {
-        await this._parseNode()
+        this._parseNode()
         return this.template
     }
 
     // 解析节点
-    private async _parseNode() {
+    private _parseNode() {
         let children = this.psd.children()
         children.reverse()
         let i = 0
@@ -38,8 +38,7 @@ export default class Parse {
 
                 }
             }
-            let layerTemplate = await layer.getLayerTemplate()
-            this.template.addLayer(layerTemplate)
+            layer.getLayerTemplate().then(layerTemplate => this.template.addLayer(layerTemplate))
         }
     }
 
