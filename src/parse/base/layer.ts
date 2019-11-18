@@ -1,4 +1,4 @@
-import { LAYER } from "../config/layer.config"
+import { LAYER_INFO } from "../config/layer.config"
 
 export default abstract class Layer {
     public x: number
@@ -6,8 +6,9 @@ export default abstract class Layer {
     public width: number
     public height: number
     public name: string
-    public type: {name: string, zIndex: number, category: string}
-    private layerNode: object
+    public layerInfo: {name: string, zIndex: number, type: string, category: string}
+    protected layerNode: object
+    protected layerTemplate = {}
 
 
     constructor(layerNode) {
@@ -17,16 +18,26 @@ export default abstract class Layer {
         this.width = layerNode.width
         this.height = layerNode.height
         this.name = layerNode.name
-        this.type = this._getLayerType(layerNode.name)
+        this.layerInfo = this._getLayerInfo(layerNode.name)
+        this.layerTemplate = {
+            name: this.name,
+            x: this.x,
+            y: this.y,
+            width: this.width,
+            height: this.height,
+            layerInfo: this.layerInfo
+        }
     }
 
-    private _getLayerType(name): {name: string, zIndex: number, category: string} {
-        return LAYER[name]
+    private _getLayerInfo(name): {name: string, zIndex: number, type: string, category: string} {
+        return LAYER_INFO[name]
     }
 
     getLayerNode() {
         return this.layerNode
     }
 
-    abstract getLayerTemplate()
+    getLayerTemplate() {
+        return this.layerTemplate
+    }
 }
