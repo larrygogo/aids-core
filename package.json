@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "canvas": "^2.6.0",
     "psd": "^3.2.0"
   },
   "devDependencies": {

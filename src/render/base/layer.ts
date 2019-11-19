@@ -1,7 +1,26 @@
-// 精灵的基类
-export class Layer {
-    constructor(layerNode) {
-        
+import { LayerNodeInterface } from "../../types"
+
+export abstract class Layer {
+    public x: number
+    public y: number
+    public name: string
+    public type: string
+    public layer: string
+    public width: number
+    public height: number
+    public zIndex: number
+    public category: string
+
+    constructor(layerNode: LayerNodeInterface) {
+        this.x        = layerNode.x
+        this.y        = layerNode.y
+        this.name     = layerNode.name
+        this.type     = layerNode.type
+        this.layer    = layerNode.layer
+        this.width    = layerNode.width
+        this.height   = layerNode.height
+        this.zIndex   = layerNode.zIndex
+        this.category = layerNode.category
     }
 
     /**
@@ -15,26 +34,5 @@ export class Layer {
      * width 要使用的宽度
      * height 要使用的高度
      */
-    draw(img = this.img,
-         srcX = this.srcX,
-         srcY = this.srcY,
-         srcW = this.srcW,
-         srcH = this.srcH,
-         x = this.x,
-         y = this.y,
-         width = this.width,
-         height = this.height,
-         ctx) {
-        ctx.drawImage(
-            img,
-            srcX,
-            srcY,
-            srcW,
-            srcH,
-            x,
-            y,
-            width,
-            height,
-        )
-    }
+    abstract draw(ctx);
 }

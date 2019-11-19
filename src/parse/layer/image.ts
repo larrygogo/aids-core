@@ -8,9 +8,6 @@ export default class ImageLayer extends Layer {
     base64: String
     constructor(layerNode) {
         super(layerNode)
-        // this.toBase64().then(base64 => {
-        //     this.base64 = base64
-        // })
     }
 
     static async createLayer(layerNode) {
