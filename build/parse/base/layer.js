@@ -8,36 +8,31 @@ exports.default = void 0;
 var _layer = require("../config/layer.config");
 
 class Layer {
-  layerTemplate = {};
-
   constructor(layerNode) {
-    this.layerNode = Object.assign({}, layerNode);
     this.x = layerNode.top;
     this.y = layerNode.left;
     this.width = layerNode.width;
     this.height = layerNode.height;
     this.name = layerNode.name;
-    this.layerInfo = this._getLayerInfo(layerNode.name);
-    this.layerTemplate = {
-      name: this.name,
-      x: this.x,
-      y: this.y,
-      width: this.width,
-      height: this.height,
-      layerInfo: this.layerInfo
-    };
+
+    this._getLayerInfo(layerNode.name);
   }
 
   _getLayerInfo(name) {
-    return _layer.LAYER_INFO[name];
+    let layerInfo = _layer.LAYER_INFO[name];
+    this.name = name;
+    this.type = layerInfo.type;
+    this.layer = layerInfo.name;
+    this.zIndex = layerInfo.zIndex;
+    this.category = layerInfo.category;
   }
 
-  getLayerNode() {
-    return this.layerNode;
-  }
-
-  getLayerTemplate() {
-    return this.layerTemplate;
+  static getLayerInfo(name) {
+    return _layer.LAYER_INFO[name] || {
+      name: null,
+      zIndex: null,
+      category: null
+    };
   }
 
 }

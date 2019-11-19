@@ -4,27 +4,24 @@ import Layer from "../base/layer";
 import { resolve } from 'dns';
 
 export default class ImageLayer extends Layer {
+
+    base64: String
     constructor(layerNode) {
         super(layerNode)
-        this.toBase64().then(res => console.log(res))
-        // this.streamToBuffer(image, res => console.log(111,res))
-        // image.pipe(fs.createWriteStream(`./${layerNode.name}.png`))
-        // fs.writeFile(`./${layerNode.name}.png`, data, function (err) {
-        //     if (err) {
-        //         console.log("error");
-        //     } else {
-        //         console.log("ok");
-        //     }
+        // this.toBase64().then(base64 => {
+        //     this.base64 = base64
         // })
-
     }
 
-    public async getLayerTemplate() {
-        return this.layerTemplate
+    static async createLayer(layerNode) {
+        let imageLayer = new ImageLayer(layerNode)
+        imageLayer.base64 = await imageLayer.toBase64(layerNode)
+        // imageLayer.base64 = "#### base64 ####"
+        return imageLayer
     }
 
-    public toBase64() {
-        let image = this.layerNode.layer.image.toPng()
+    public toBase64(layerNode): Promise<String> {
+        let image = layerNode.layer.image.toPng()
         return new Promise((resolve, reject) => {
           const chunks = [];
           
@@ -33,7 +30,8 @@ export default class ImageLayer extends Layer {
             chunks.push(chunk);  // [2]
           });
           image.on('end', () => {
-            resolve(`data:image/png;base64,${Buffer.concat(chunks).toString('base64')}`);  // [3]
+            resolve(`${Buffer.concat(chunks).toString('base64')}`);  // [3]
+            // resolve(`data:image/png;base64,${Buffer.concat(chunks).toString('base64')}`);  // [3]
           });
           image.on('error', (err) => {
             reject(err);

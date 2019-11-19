@@ -14,17 +14,24 @@ class TextLayer extends _layer.default {
     super(layerNode);
     let textNode = layerNode.export();
     this.value = textNode.text.value;
-    this.letterSpacing = this._getBytesCount(textNode.text.value);
+    this.letterSpacing = this._getLetterSpacing(textNode);
     this.color = textNode.text.font.colors[0] || [0, 0, 0, 255];
     this.fontFamily = textNode.text.font.name;
     this.fontSize = this._getFontSize(textNode);
-    Object.assign(this.layerTemplate, {
-      value: this.value,
-      letterSpacing: this.letterSpacing,
-      color: this.color,
-      fontFamily: this.fontFamily,
-      fontSize: this.fontSize
-    });
+  }
+
+  static async createLayer(layerNode) {
+    let textLayer = new TextLayer(layerNode);
+    return textLayer;
+  }
+
+  _getLetterSpacing(textNode) {
+    let {
+      sizes
+    } = textNode.text.font,
+        transY = textNode.text.transform.yy,
+        size = Math.round(sizes[0] * transY * 100) * 0.01;
+    return Math.ceil((textNode.width - this._getBytesCount(textNode.text.value) * size) / textNode.text.value.length);
   } // 获取字符串的字节数
 
 

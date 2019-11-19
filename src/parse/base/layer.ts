@@ -3,41 +3,34 @@ import { LAYER_INFO } from "../config/layer.config"
 export default abstract class Layer {
     public x: number
     public y: number
+    public name: string
+    public type: string
+    public layer: string
     public width: number
     public height: number
-    public name: string
-    public layerInfo: {name: string, zIndex: number, type: string, category: string}
-    protected layerNode: object
-    protected layerTemplate = {}
-
+    public zIndex: number
+    public category: string
 
     constructor(layerNode) {
-        this.layerNode = Object.assign({}, layerNode)
         this.x = layerNode.top
         this.y = layerNode.left
         this.width = layerNode.width
         this.height = layerNode.height
         this.name = layerNode.name
-        this.layerInfo = this._getLayerInfo(layerNode.name)
-        this.layerTemplate = {
-            name: this.name,
-            x: this.x,
-            y: this.y,
-            width: this.width,
-            height: this.height,
-            layerInfo: this.layerInfo
-        }
+        this._getLayerInfo(layerNode.name)
     }
 
-    private _getLayerInfo(name): {name: string, zIndex: number, type: string, category: string} {
-        return LAYER_INFO[name]
+    private _getLayerInfo(name) {
+        let layerInfo = LAYER_INFO[name]
+        this.name = name
+        this.type = layerInfo.type
+        this.layer = layerInfo.name
+        this.zIndex = layerInfo.zIndex
+        this.category = layerInfo.category
     }
 
-    getLayerNode() {
-        return this.layerNode
+    static getLayerInfo(name): {name: string, zIndex: number, type: string, category: string} {
+        return LAYER_INFO[name] || {name: null, zIndex: null, category: null}
     }
 
-    getLayerTemplate() {
-        return this.layerTemplate
-    }
 }

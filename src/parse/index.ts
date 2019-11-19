@@ -1,8 +1,8 @@
 import PSD from 'psd'
 import ImageLayer from './layer/image';
-import { LAYER_INFO } from './config/layer.config';
 import TextLayer from './layer/text';
 import Template from './base/template';
+import Layer from './base/layer';
 
 export default class Parse {
     private psd
@@ -16,33 +16,22 @@ export default class Parse {
     }
 
     async getTemplate() {
-        this._parseNode()
+        await this._parseNode()
         return this.template
     }
 
     // 解析节点
-    private _parseNode() {
+    private async _parseNode() {
         let children = this.psd.children()
-        children.reverse()
-        let i = 0
         for (let [key, item] of children.entries()) {
             let layer, 
-                layerInfo = this._getLayerInfo(item.name)
+                layerInfo = Layer.getLayerInfo(item.name)
             if(layerInfo.type && layerInfo.type === 'text') {
-                layer = new TextLayer(item)
+                layer = await TextLayer.createLayer(item)
             } else if(layerInfo.type && layerInfo.type === 'image') {
-                layer = new ImageLayer(item)
-                i ++ 
-                if(i === 2) {
-                    break
-
-                }
+                layer = await ImageLayer.createLayer(item)
             }
-            layer.getLayerTemplate().then(layerTemplate => this.template.addLayer(layerTemplate))
+            this.template.addLayer(layer)
         }
-    }
-
-    private _getLayerInfo(name): {name: string, zIndex: number, type: string, category: string} {
-        return LAYER_INFO[name] || {name: null, zIndex: null, category: null}
     }
 }
