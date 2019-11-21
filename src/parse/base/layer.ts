@@ -12,8 +12,8 @@ export default abstract class Layer {
     public category: string
 
     constructor(layerNode) {
-        this.x = layerNode.top
-        this.y = layerNode.left
+        this.x = layerNode.left
+        this.y = layerNode.top
         this.width = layerNode.width
         this.height = layerNode.height
         this.name = layerNode.name

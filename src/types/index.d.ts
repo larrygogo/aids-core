@@ -4,7 +4,7 @@ export interface TemplateInterface {
     md5: string
     width: number
     height: number
-    layers: Array<any>
+    layers: Array<LayerNodeInterface>
 }
 
 
@@ -19,5 +19,19 @@ export interface LayerNodeInterface {
     zIndex: number
     category: string
 
-    base64? : string
+    base64?: string
+
+    letterSpacing?: number
+    color?: Array<number>
+    fontFamily?: string
+    fontSize?: number
+    value?: string
+}
+
+export interface RenderOptions {
+    subText: string
+    mainText: string
+    descText: string
+
+    outPath?: string
 }

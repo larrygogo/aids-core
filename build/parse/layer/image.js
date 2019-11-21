@@ -13,9 +13,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 class ImageLayer extends _layer.default {
   constructor(layerNode) {
-    super(layerNode); // this.toBase64().then(base64 => {
-    //     this.base64 = base64
-    // })
+    super(layerNode);
   }
 
   static async createLayer(layerNode) {
@@ -36,7 +34,6 @@ class ImageLayer extends _layer.default {
       });
       image.on('end', () => {
         resolve(`${_buffer.Buffer.concat(chunks).toString('base64')}`); // [3]
-        // resolve(`data:image/png;base64,${Buffer.concat(chunks).toString('base64')}`);  // [3]
       });
       image.on('error', err => {
         reject(err);

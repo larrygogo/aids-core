@@ -34,6 +34,7 @@ class Parse {
 
   async _parseNode() {
     let children = this.psd.children();
+    children.reverse();
 
     for (let [key, item] of children.entries()) {
       let layer,

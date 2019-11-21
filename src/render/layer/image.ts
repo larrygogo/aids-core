@@ -1,4 +1,5 @@
 import { Layer } from "../base/layer";
+import { loadImage } from 'canvas'
 import { LayerNodeInterface } from "../../types";
 
 export default class ImageLayer extends Layer {
@@ -11,27 +12,22 @@ export default class ImageLayer extends Layer {
 
     draw(ctx) {
         return new Promise((resolve, reject) => {
-            let img = new Image()
-            img.src = `data:image/png;base64,${this.base64}`
-            img.onload = () => {
+            let img = loadImage(`data:image/png;base64,${this.base64}`)
+            img.then(image => {
                 ctx.drawImage(
-                    img,
-                    this.x,
-                    this.y,
+                    image,
+                    0,
+                    0,
                     this.width,
                     this.height,
-                    0,
-                    0,
-                    img.width,
-                    img.height
+                    this.x,
+                    this.y,
+                    image.width,
+                    image.height
                 )
                 resolve()
-            }
-
-            img.onerror = (err) => {
-                reject(err)
-            }
+            })
         })
-        
+
     }
 }

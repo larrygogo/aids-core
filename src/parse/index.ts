@@ -23,6 +23,7 @@ export default class Parse {
     // 解析节点
     private async _parseNode() {
         let children = this.psd.children()
+        children.reverse()
         for (let [key, item] of children.entries()) {
             let layer, 
                 layerInfo = Layer.getLayerInfo(item.name)

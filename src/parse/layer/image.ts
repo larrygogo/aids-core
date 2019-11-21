@@ -28,7 +28,6 @@ export default class ImageLayer extends Layer {
           });
           image.on('end', () => {
             resolve(`${Buffer.concat(chunks).toString('base64')}`);  // [3]
-            // resolve(`data:image/png;base64,${Buffer.concat(chunks).toString('base64')}`);  // [3]
           });
           image.on('error', (err) => {
             reject(err);

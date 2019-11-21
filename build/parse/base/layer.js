@@ -9,8 +9,8 @@ var _layer = require("../config/layer.config");
 
 class Layer {
   constructor(layerNode) {
-    this.x = layerNode.top;
-    this.y = layerNode.left;
+    this.x = layerNode.left;
+    this.y = layerNode.top;
     this.width = layerNode.width;
     this.height = layerNode.height;
     this.name = layerNode.name;
