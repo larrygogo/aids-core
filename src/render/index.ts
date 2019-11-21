@@ -1,9 +1,10 @@
-import { Canvas, createCanvas, registerFont } from 'canvas';
+import { Canvas, createCanvas, registerFont, loadImage } from 'canvas';
 import { TemplateInterface, RenderOptions } from '../types';
 import ImageLayer from './layer/image';
 import TextLayer from './layer/text';
 import path from 'path';
 import fs from 'fs';
+import { imageToBase64 } from './utils/util';
 
 
 
@@ -25,7 +26,12 @@ export default class Render {
         for (let item of this.template.layers) {
             if (item.type === 'image') {
                 let layer = new ImageLayer(item)
+                if(item.layer === 'body' && this.options.bodyImage) {
+                    let image = await loadImage(this.options.bodyImage)
+                    layer.resize(image)
+                }
                 await layer.draw(this.ctx)
+                
             } else {
                 let layer = new TextLayer(item)
                 await layer.draw(this.ctx)

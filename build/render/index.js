@@ -31,6 +31,12 @@ class Render {
     for (let item of this.template.layers) {
       if (item.type === 'image') {
         let layer = new _image.default(item);
+
+        if (item.layer === 'body' && this.options.bodyImage) {
+          let image = await (0, _canvas.loadImage)(this.options.bodyImage);
+          layer.resize(image);
+        }
+
         await layer.draw(this.ctx);
       } else {
         let layer = new _text.default(item);

@@ -23,8 +23,6 @@ export default class ImageLayer extends Layer {
         ctx.textBaseline = 'ideographic';
         return new Promise((resolve, reject) => {
             ctx.font = `${this.fontSize}px "${this.fontFamily}"`;
-            
-            console.log(this.value, this.fontFamily)
             // ctx.textAlign = this.alignment;
             ctx.letterSpacing = this.letterSpacing;
             ctx.fillStyle = `rgb(${this.color.toString()})`;
@@ -45,7 +43,7 @@ export default class ImageLayer extends Layer {
                 _this = this;
             str = arguments[0], x = arguments[1], y = arguments[2], args = 4 <= arguments.length ? __slice.call(arguments, 3) : [];
             if (_this.letterSpacing == null || _this.letterSpacing === 0) {
-                let a = [str, x , y - 10].concat(args)
+                let a = [str, x , y].concat(args)
                 return _fillText.apply(this, a);
             }
             offset = -(_this.letterSpacing + _this.measureText(str[0]).width) / 2;
@@ -56,7 +54,7 @@ export default class ImageLayer extends Layer {
             // }
             for (let i in str) {
                 offset += Math.round(_this.measureText(str[i]).width) / 2
-                _fillText.apply(this, [str[i], x + offset, y - 10].concat(args));
+                _fillText.apply(this, [str[i], x + offset, y].concat(args));
                 offset += Math.round(_this.measureText(str[i]).width) / 2
                 offset += _this.letterSpacing
             }

@@ -34,4 +34,5 @@ export interface RenderOptions {
     descText: string
 
     outPath?: string
+    bodyImage?: string
 }

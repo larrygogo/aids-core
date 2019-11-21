@@ -11,8 +11,7 @@ class ImageLayer extends _layer.Layer {
   constructor(layerNode) {
     super(layerNode);
     this.letterSpacing = layerNode.letterSpacing;
-    this.fontFamily = layerNode.fontFamily; // this.fontFamily = "TTTGBMedium"
-
+    this.fontFamily = layerNode.fontFamily;
     this.fontSize = layerNode.fontSize;
     this.color = layerNode.color;
     this.value = layerNode.value;
@@ -21,8 +20,7 @@ class ImageLayer extends _layer.Layer {
   draw(ctx) {
     ctx.textBaseline = 'ideographic';
     return new Promise((resolve, reject) => {
-      ctx.font = `${this.fontSize}px "${this.fontFamily}"`;
-      console.log(this.value, this.fontFamily); // ctx.textAlign = this.alignment;
+      ctx.font = `${this.fontSize}px "${this.fontFamily}"`; // ctx.textAlign = this.alignment;
 
       ctx.letterSpacing = this.letterSpacing;
       ctx.fillStyle = `rgb(${this.color.toString()})`;
@@ -45,11 +43,9 @@ class ImageLayer extends _layer.Layer {
           _this = this;
 
       str = arguments[0], x = arguments[1], y = arguments[2], args = 4 <= arguments.length ? __slice.call(arguments, 3) : [];
-      console.log(ctx.font);
 
       if (_this.letterSpacing == null || _this.letterSpacing === 0) {
-        let a = [str, x, y - 10].concat(args);
-        console.log(a);
+        let a = [str, x, y].concat(args);
         return _fillText.apply(this, a);
       }
 
@@ -62,7 +58,7 @@ class ImageLayer extends _layer.Layer {
       for (let i in str) {
         offset += Math.round(_this.measureText(str[i]).width) / 2;
 
-        _fillText.apply(this, [str[i], x + offset, y - 10].concat(args));
+        _fillText.apply(this, [str[i], x + offset, y].concat(args));
 
         offset += Math.round(_this.measureText(str[i]).width) / 2;
         offset += _this.letterSpacing;
