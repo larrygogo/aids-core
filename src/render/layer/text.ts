@@ -33,6 +33,10 @@ export default class ImageLayer extends Layer {
 
     }
 
+    public changeValue(value) {
+        this.value = value
+    }
+
     // 由于canvas本身不支持字间距，此处重写fillText方法
     private _fillText(ctx) {
         let _fillText = ctx.__proto__.fillText,

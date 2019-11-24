@@ -28,6 +28,10 @@ class ImageLayer extends _layer.Layer {
       ctx.fillText(this.value, this.x, this.y);
       resolve();
     });
+  }
+
+  changeValue(value) {
+    this.value = value;
   } // 由于canvas本身不支持字间距，此处重写fillText方法
 
 

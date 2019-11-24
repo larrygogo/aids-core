@@ -1,7 +1,6 @@
 import { Layer } from "../base/layer";
 import { loadImage, createCanvas } from 'canvas'
 import { LayerNodeInterface } from "../../types";
-import { imageToBase64 } from "../utils/util";
 
 export default class ImageLayer extends Layer {
     public base64: string

@@ -29,10 +29,20 @@ export interface LayerNodeInterface {
 }
 
 export interface RenderOptions {
-    subText: string
-    mainText: string
-    descText: string
+    subText?: string
+    mainText?: string
+    actionText?: string
 
     outPath?: string
     bodyImage?: string
+
+    font?: {
+        dir: string
+        list: Array<FontOption>
+    }
+}
+
+interface FontOption {
+    path: string
+    family: string
 }

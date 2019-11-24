@@ -1,4 +1,5 @@
 const fs = require('fs')
+const fonts = require('./font')
 const path = require('path')
 const {Parse, Render} = require('../build/index')
 
@@ -17,6 +18,10 @@ parse.getTemplate().then(res => {
   const render = new Render(res, {
     outPath: path.join(__dirname, '/static/test.png'),
     bodyImage: path.join(__dirname, '/static/p1.png'),
+    mainText: '骑上我心爱小摩托',
+    subText: '它拥有不会易堵车',
+    actionText: '啦啦啦啦',
+    // font: fonts
   })
   console.log('--- 开始渲染 ---')
   console.time('总耗时')  
