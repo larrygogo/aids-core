@@ -7,11 +7,18 @@
     "build": "babel src -d build --extensions '.ts,.tsx'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "larryzheng",
   "license": "ISC",
   "dependencies": {
     "canvas": "^2.6.0",
     "psd": "^3.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/larrygogo/aids-core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/larrygogo/aids-core/issues"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.0",
