@@ -20,12 +20,14 @@ class ImageLayer extends _layer.Layer {
   draw(ctx) {
     ctx.textBaseline = 'ideographic';
     return new Promise((resolve, reject) => {
+      ctx.save();
       ctx.font = `${this.fontSize}px "${this.fontFamily}"`; // ctx.textAlign = this.alignment;
 
       ctx.letterSpacing = this.letterSpacing;
       ctx.fillStyle = `rgb(${this.color.toString()})`;
       ctx.fillText = this._fillText(ctx);
       ctx.fillText(this.value, this.x, this.y);
+      ctx.restore();
       resolve();
     });
   }

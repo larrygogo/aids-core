@@ -11,7 +11,7 @@ const {Parse, Render} = require('../build/index')
 // 渲染
 console.log('--- 开始解析 ---')
 console.time('解析耗时')  
-const parse = new Parse(path.resolve(__dirname, './static/test3.psd'))
+const parse = new Parse(path.resolve(__dirname, './static/test.psd'))
 parse.getTemplate().then(res => {
   console.timeEnd('解析耗时') 
   console.log('--- 解析成功 ---')
@@ -21,7 +21,7 @@ parse.getTemplate().then(res => {
     mainText: '骑上我心爱小摩托',
     subText: '它拥有不会易堵车',
     actionText: '啦啦啦啦',
-    // font: fonts
+    font: fonts
   })
   console.log('--- 开始渲染 ---')
   console.time('总耗时')  
