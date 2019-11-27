@@ -1,6 +1,7 @@
 import { LAYER_INFO } from "../config/layer.config"
+import { LayerInterface, LayerInfoInterface } from "../../types"
 
-export default abstract class Layer {
+export default abstract class Layer implements LayerInterface{
     public x: number
     public y: number
     public name: string
@@ -16,21 +17,20 @@ export default abstract class Layer {
         this.y = layerNode.top
         this.width = layerNode.width
         this.height = layerNode.height
-        this.name = layerNode.name
-        this._getLayerInfo(layerNode.name)
+        this.name = layerNode.additional.luni
+        this._setLayerInfo(layerNode.additional.luni)
     }
 
-    private _getLayerInfo(name) {
-        let layerInfo = LAYER_INFO[name]
+    static getLayerInfo(name): LayerInfoInterface {
+        return LAYER_INFO[name] || {name: null, type: null, zIndex: null, category: null}
+    }
+
+    private _setLayerInfo(name) {
+        let layerInfo = Layer.getLayerInfo(name)
         this.name = name
         this.type = layerInfo.type
         this.layer = layerInfo.name
         this.zIndex = layerInfo.zIndex
         this.category = layerInfo.category
-    }
-
-    static getLayerInfo(name): {name: string, zIndex: number, type: string, category: string} {
-        return LAYER_INFO[name] || {name: null, zIndex: null, category: null}
-    }
-
+    }    
 }

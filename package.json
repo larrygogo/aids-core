@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "build/index.js",
-  "files": ["/build", "/src"],
+  "files": [
+    "/build",
+    "/src"
+  ],
   "scripts": {
     "build": "babel src -d build --extensions '.ts,.tsx'",
     "test": "node test/index.js"
@@ -12,7 +15,8 @@
   "license": "MIT",
   "dependencies": {
     "canvas": "^2.6.0",
-    "psd": "^3.2.0"
+    "psd-parser": "^0.1.6",
+    "uint8": "^1.0.0"
   },
   "repository": {
     "type": "git",

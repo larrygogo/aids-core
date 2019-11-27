@@ -29,17 +29,18 @@ class Render {
     this.ctx = this.canvas.getContext('2d');
   }
 
-  async run() {
-    for (let item of this.template.layers) {
+  run() {
+    let children = this.template.layers;
+    children.reverse();
+
+    for (let item of children) {
       if (item.type === 'image') {
-        let layer = new _image.default(item);
+        let layer = new _image.default(item); // if(item.layer === 'body' && this.options.bodyImage) {
+        //     let image = await loadImage(this.options.bodyImage)
+        //     layer.resize(image)
+        // }
 
-        if (item.layer === 'body' && this.options.bodyImage) {
-          let image = await (0, _canvas.loadImage)(this.options.bodyImage);
-          layer.resize(image);
-        }
-
-        await layer.draw(this.ctx);
+        layer.draw(this.ctx);
       } else if (item.type === 'text') {
         let layer = new _text.default(item);
 
@@ -51,7 +52,7 @@ class Render {
           layer.changeValue(this.options.subText);
         }
 
-        await layer.draw(this.ctx);
+        layer.draw(this.ctx);
       }
     }
 

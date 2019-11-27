@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _buffer = require("buffer");
-
 var _layer = _interopRequireDefault(require("../base/layer"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -14,31 +12,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 class ImageLayer extends _layer.default {
   constructor(layerNode) {
     super(layerNode);
+    this.imageData = layerNode.parseImageData();
   }
 
-  static async createLayer(layerNode) {
-    let imageLayer = new ImageLayer(layerNode);
-    imageLayer.base64 = await imageLayer.toBase64(layerNode); // imageLayer.base64 = "#### base64 ####"
-
-    return imageLayer;
-  }
-
-  toBase64(layerNode) {
-    let image = layerNode.layer.image.toPng();
-    return new Promise((resolve, reject) => {
-      const chunks = [];
-      image.pack(); // [1]
-
-      image.on('data', chunk => {
-        chunks.push(chunk); // [2]
-      });
-      image.on('end', () => {
-        resolve(`${_buffer.Buffer.concat(chunks).toString('base64')}`); // [3]
-      });
-      image.on('error', err => {
-        reject(err);
-      });
-    });
+  toLayer() {
+    return this;
   }
 
 }

@@ -1,6 +1,7 @@
 import Layer from "./layer"
+import { TemplateInterface } from "../../types"
 
-export default class Template {
+export default class Template implements TemplateInterface {
     public name: string
     public src: string
     public md5: string

@@ -1,52 +1,32 @@
 import Layer from "../base/layer";
+import { WordSnippet, TextLayerInterface, TextInfo } from "../../types";
 
-export default class TextLayer extends Layer {
-    public value: string
-    public letterSpacing: number
-    public color: Array<number>
-    public fontFamily: string
-    public fontSize: number
+export default class TextLayer extends Layer implements TextLayerInterface {
+    public text: TextInfo
 
     constructor(layerNode) {
         super(layerNode)
-        let textNode = layerNode.export()
-        this.value = textNode.text.value
-        this.letterSpacing = this._getLetterSpacing(textNode)
-        this.color = textNode.text.font.colors[0] || [0, 0, 0, 255]
-        this.fontFamily = textNode.text.font.name
-        this.fontSize = this._getFontSize(textNode)        
-    }
-
-    static async createLayer(layerNode) {
-        let textLayer = new TextLayer(layerNode)
-        return textLayer
-    }
-
-    private _getLetterSpacing(textNode) {
-        let { sizes } = textNode.text.font,
-        transY = textNode.text.transform.yy,
-        size = Math.round(sizes[0] * transY * 100) * 0.01;
-        return Math.ceil((textNode.width - this._getBytesCount(textNode.text.value) * size) / textNode.text.value.length)
-    }
-
-    // 获取字符串的字节数
-    private _getBytesCount(str: string): number {
-        let bytesCount = 0;
-        for (let i = 0; i < str.length; i++) {
-            let c = str.charAt(i);
-            if (/^[\u0000-\u00ff]$/.test(c)) { //匹配单字节
-                bytesCount += 1;
-            }
-            else {
-                bytesCount += 2;
-            }
+        let wordSnippets = layerNode.get('wordSnippets')
+        this.text = {
+            fontWeight: wordSnippets[0]['font-weight'],
+            fontStyle: wordSnippets[0]['font-style'],
+            fontFamily: wordSnippets[0]['font-family'],
+            fontSize: wordSnippets[0]['font-size'],
+            opacity: wordSnippets[0]['opacity'],
+            color: wordSnippets[0]['color'],
+            letterSpacing: wordSnippets[0]['letter-spacing'],
+            marginLeft: wordSnippets[0]['margin-left'],
+            lineHeight: wordSnippets[0]['line-height'],
+            textDecoration: wordSnippets[0]['text-decoration'],
+            value: wordSnippets[0]['text'],
         }
-        return bytesCount / 2
+        wordSnippets.forEach(item => {
+            this.text.value += item.text
+        });
+
     }
 
-    private _getFontSize(textNode): number {
-        let transY = textNode.text.transform.yy,
-            sizes = textNode.text.font.sizes
-        return Math.round(sizes[0] * transY * 100) * 0.01;
+    toLayer() {
+        return this as TextLayerInterface
     }
 }

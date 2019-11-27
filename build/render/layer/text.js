@@ -7,33 +7,29 @@ exports.default = void 0;
 
 var _layer = require("../base/layer");
 
-class ImageLayer extends _layer.Layer {
+class TextLayer extends _layer.Layer {
   constructor(layerNode) {
     super(layerNode);
-    this.letterSpacing = layerNode.letterSpacing;
-    this.fontFamily = layerNode.fontFamily;
-    this.fontSize = layerNode.fontSize;
-    this.color = layerNode.color;
-    this.value = layerNode.value;
+    this.text = layerNode.text;
+    console.log(this.text);
   }
 
   draw(ctx) {
+    console.log(this.text);
     ctx.textBaseline = 'ideographic';
-    return new Promise((resolve, reject) => {
-      ctx.save();
-      ctx.font = `${this.fontSize}px "${this.fontFamily}"`; // ctx.textAlign = this.alignment;
+    ctx.save();
+    ctx.font = `${this.text.fontSize} "${this.text.fontFamily}"`; // ctx.textAlign = this.alignment;
 
-      ctx.letterSpacing = this.letterSpacing;
-      ctx.fillStyle = `rgb(${this.color.toString()})`;
-      ctx.fillText = this._fillText(ctx);
-      ctx.fillText(this.value, this.x, this.y);
-      ctx.restore();
-      resolve();
-    });
+    ctx.letterSpacing = parseInt(this.text.letterSpacing);
+    ctx.fillStyle = this.text.color;
+    ctx.fillText = this._fillText(ctx);
+    console.log(this.text);
+    ctx.fillText(this.text.value, this.x, this.y);
+    ctx.restore();
   }
 
   changeValue(value) {
-    this.value = value;
+    this.text.value = value;
   } // 由于canvas本身不支持字间距，此处重写fillText方法
 
 
@@ -50,7 +46,7 @@ class ImageLayer extends _layer.Layer {
 
       str = arguments[0], x = arguments[1], y = arguments[2], args = 4 <= arguments.length ? __slice.call(arguments, 3) : [];
 
-      if (_this.letterSpacing == null || _this.letterSpacing === 0) {
+      if (_this.letterSpacing == NaN || _this.letterSpacing === 0) {
         let a = [str, x, y].concat(args);
         return _fillText.apply(this, a);
       }
@@ -74,4 +70,4 @@ class ImageLayer extends _layer.Layer {
 
 }
 
-exports.default = ImageLayer;
+exports.default = TextLayer;

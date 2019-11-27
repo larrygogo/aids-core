@@ -1,5 +1,5 @@
 import { Canvas, createCanvas, registerFont, loadImage } from 'canvas';
-import { TemplateInterface, RenderOptions, FontOption } from '../types';
+import { TemplateInterface, RenderOptions, FontOption, ImageLayerInterface, TextLayerInterface } from '../types';
 import ImageLayer from './layer/image';
 import TextLayer from './layer/text';
 import path from 'path';
@@ -23,18 +23,21 @@ export default class Render {
         this.ctx = this.canvas.getContext('2d');
     }
 
-    async run() {
-        for (let item of this.template.layers) {
+    run() {
+        let children = this.template.layers
+        children.reverse()
+        for (let item of children) {
             if (item.type === 'image') {
-                let layer = new ImageLayer(item)
-                if(item.layer === 'body' && this.options.bodyImage) {
-                    let image = await loadImage(this.options.bodyImage)
-                    layer.resize(image)
-                }
-                await layer.draw(this.ctx)
+                let layer = new ImageLayer(item as ImageLayerInterface)
+                // if(item.layer === 'body' && this.options.bodyImage) {
+                //     let image = await loadImage(this.options.bodyImage)
+                //     layer.resize(image)
+                // }
+                layer.draw(this.ctx)
                 
-            } else if(item.type === 'text'){
-                let layer = new TextLayer(item)
+            } 
+            else if(item.type === 'text'){
+                let layer = new TextLayer(item as TextLayerInterface)
                 if(item.layer === 'text_action' && this.options.actionText) {
                     layer.changeValue(this.options.actionText)
                 } else if(item.layer === 'text_main' && this.options.actionText) {
@@ -42,7 +45,7 @@ export default class Render {
                 } else if(item.layer === 'text_sub' && this.options.actionText) {
                     layer.changeValue(this.options.subText)
                 }
-                await layer.draw(this.ctx)
+                layer.draw(this.ctx)
             }
         }
         let buf = this.canvas.toBuffer()

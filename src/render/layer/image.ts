@@ -1,13 +1,13 @@
 import { Layer } from "../base/layer";
-import { loadImage, createCanvas } from 'canvas'
-import { LayerNodeInterface } from "../../types";
+import { createCanvas, createImageData } from 'canvas'
+import { ImageLayerInterface } from "../../types";
 
 export default class ImageLayer extends Layer {
-    public base64: string
+    public imageData: Array<number>
 
-    constructor(layerNode: LayerNodeInterface) {
+    constructor(layerNode: ImageLayerInterface) {
         super(layerNode)
-        this.base64 = layerNode.base64
+        this.imageData = layerNode.imageData
     }
 
     resize(img) {
@@ -25,33 +25,25 @@ export default class ImageLayer extends Layer {
             this.x += (height - this.height) / 2
             this.y += (width - this.width) / 2
         }
-        let canvas = createCanvas(this.width, this.height)
-        let ctx = canvas.getContext('2d')
-        ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, this.width, this.height)
-        let base64 = canvas.toDataURL('image/png')
-        this.base64 = base64.substring(base64.indexOf(',') + 1)
     }
 
     draw(ctx) {
-        return new Promise((resolve, reject) => {
-            let img = loadImage(`data:image/png;base64,${this.base64}`)
-            img.then(image => {
-                ctx.drawImage(
-                    image,
-                    0,
-                    0,
-                    this.width,
-                    this.height,
-                    this.x,
-                    this.y,
-                    image.width,
-                    image.height
-                )
-                resolve()
-            }).catch(err => {
-                reject(err)
-            })
-        })
+        const palette = new Uint8ClampedArray(this.imageData)
+        let canvas = createCanvas(this.width, this.height)
+        let imageData = createImageData(palette, this.width, this.height)
+        let context = canvas.getContext('2d')
+        context.putImageData(imageData, 0, 0)
+        ctx.drawImage(
+            canvas,
+            0,
+            0,
+            this.width,
+            this.height,
+            this.x,
+            this.y,
+            canvas.width,
+            canvas.height
+        )
 
     }
 }

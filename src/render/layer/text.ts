@@ -1,41 +1,32 @@
 import { Layer } from "../base/layer";
-import { LayerNodeInterface } from "../../types";
+import { LayerInterface, TextLayerInterface, WordSnippet, TextInfo } from "../../types";
 
-export default class ImageLayer extends Layer {
-    public letterSpacing: number
-    public color: Array<number>
-    public fontFamily: string
-    public fontSize: number
-    public value: string
+export default class TextLayer extends Layer implements TextLayerInterface {
+    public text: TextInfo
 
-
-    constructor(layerNode: LayerNodeInterface) {
+    constructor(layerNode: TextLayerInterface) {
         super(layerNode)
-        this.letterSpacing = layerNode.letterSpacing
-        this.fontFamily = layerNode.fontFamily
-        this.fontSize = layerNode.fontSize
-        this.color = layerNode.color
-        this.value = layerNode.value
+        this.text = layerNode.text
+        console.log(this.text)
+
     }
 
     draw(ctx) {
+        console.log(this.text)
         ctx.textBaseline = 'ideographic';
-        return new Promise((resolve, reject) => {
-            ctx.save()
-            ctx.font = `${this.fontSize}px "${this.fontFamily}"`;
-            // ctx.textAlign = this.alignment;
-            ctx.letterSpacing = this.letterSpacing;
-            ctx.fillStyle = `rgb(${this.color.toString()})`;
-            ctx.fillText = this._fillText(ctx);
-            ctx.fillText(this.value, this.x, this.y)
-            ctx.restore()
-            resolve()
-        })
-
+        ctx.save()
+        ctx.font = `${this.text.fontSize} "${this.text.fontFamily}"`;
+        // ctx.textAlign = this.alignment;
+        ctx.letterSpacing = parseInt(this.text.letterSpacing);
+        ctx.fillStyle = this.text.color;
+        ctx.fillText = this._fillText(ctx);
+        console.log(this.text)
+        ctx.fillText(this.text.value, this.x, this.y)
+        ctx.restore()
     }
 
     public changeValue(value) {
-        this.value = value
+        this.text.value = value
     }
 
     // 由于canvas本身不支持字间距，此处重写fillText方法
@@ -47,7 +38,7 @@ export default class ImageLayer extends Layer {
             let args, offset, str, x, y,
                 _this = this;
             str = arguments[0], x = arguments[1], y = arguments[2], args = 4 <= arguments.length ? __slice.call(arguments, 3) : [];
-            if (_this.letterSpacing == null || _this.letterSpacing === 0) {
+            if (_this.letterSpacing == NaN || _this.letterSpacing === 0) {
                 let a = [str, x , y].concat(args)
                 return _fillText.apply(this, a);
             }

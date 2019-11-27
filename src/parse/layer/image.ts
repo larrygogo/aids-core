@@ -1,38 +1,16 @@
-import fs from 'fs'
-import { Buffer } from 'buffer'
 import Layer from "../base/layer";
-import { resolve } from 'dns';
+import { LayerInterface, ImageLayerInterface } from "../../types";
 
-export default class ImageLayer extends Layer {
+export default class ImageLayer extends Layer implements ImageLayerInterface{
+  
+  imageData: Array<number>
 
-    base64: String
-    constructor(layerNode) {
-        super(layerNode)
-    }
+  constructor(layerNode) {
+    super(layerNode)
+    this.imageData = layerNode.parseImageData()
+  }
 
-    static async createLayer(layerNode) {
-        let imageLayer = new ImageLayer(layerNode)
-        imageLayer.base64 = await imageLayer.toBase64(layerNode)
-        // imageLayer.base64 = "#### base64 ####"
-        return imageLayer
-    }
-
-    public toBase64(layerNode): Promise<String> {
-        let image = layerNode.layer.image.toPng()
-        return new Promise((resolve, reject) => {
-          const chunks = [];
-          
-          image.pack();  // [1]
-          image.on('data', (chunk) => {
-            chunks.push(chunk);  // [2]
-          });
-          image.on('end', () => {
-            resolve(`${Buffer.concat(chunks).toString('base64')}`);  // [3]
-          });
-          image.on('error', (err) => {
-            reject(err);
-          });
-        });
-      }
-      
+  toLayer() {
+    return this as ImageLayerInterface
+  }
 }

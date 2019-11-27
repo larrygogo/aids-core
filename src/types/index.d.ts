@@ -4,11 +4,11 @@ export interface TemplateInterface {
     md5: string
     width: number
     height: number
-    layers: Array<LayerNodeInterface>
+    layers: Array<LayerInterface>
 }
 
 
-export interface LayerNodeInterface {
+export interface LayerInterface {
     x: number
     y: number
     name: string
@@ -18,14 +18,21 @@ export interface LayerNodeInterface {
     height: number
     zIndex: number
     category: string
+}
 
-    base64?: string
+export interface LayerInfoInterface {
+    name: string
+    zIndex: number
+    type: string
+    category: string
+}
 
-    letterSpacing?: number
-    color?: Array<number>
-    fontFamily?: string
-    fontSize?: number
-    value?: string
+export interface ImageLayerInterface extends LayerInterface{
+    imageData: Array<number>
+}
+
+export interface TextLayerInterface extends LayerInterface{
+    text: TextInfo
 }
 
 export interface RenderOptions {
@@ -46,3 +53,32 @@ interface FontOption {
     path: string
     family: string
 }
+
+export interface WordSnippet {
+    fontWeight: string
+    fontStyle: string
+    fontFamily: string
+    fontSize: string
+    opacity: number
+    color: string
+    letterSpacing: string
+    marginLeft: number
+    lineHeight: string
+    textDecoration: string
+    text: string
+}
+
+export interface TextInfo {
+    fontWeight: string
+    fontStyle: string
+    fontFamily: string
+    fontSize: string
+    opacity: number
+    color: string
+    letterSpacing: string
+    marginLeft: number
+    lineHeight: string
+    textDecoration: string
+    value: string
+}
+
