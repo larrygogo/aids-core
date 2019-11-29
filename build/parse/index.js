@@ -15,15 +15,36 @@ var _template = _interopRequireDefault(require("./base/template"));
 
 var _layer = _interopRequireDefault(require("./base/layer"));
 
+var _buffer = require("buffer");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 class Parse {
   constructor(url) {
+    this.url = url;
+
     let psd = _psd.default.fromFile(url);
 
     psd.parse();
     this.psd = psd.tree();
     this.template = new _template.default(url, this.psd.coords.right - this.psd.coords.left, this.psd.coords.bottom - this.psd.coords.top);
+  }
+
+  async getBase64() {
+    let url = this.url;
+
+    let psd = _psd.default.fromFile(url);
+
+    psd.parse();
+    let image = psd.image.toPng();
+    return new Promise((resolve, reject) => {
+      let buffers = [];
+      image.pack(); // [1]
+
+      image.on('error', reject);
+      image.on('data', data => buffers.push(data));
+      image.on('end', () => resolve('data:image/png;base64,' + _buffer.Buffer.concat(buffers)));
+    });
   }
 
   async getTemplate() {
