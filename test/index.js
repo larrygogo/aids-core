@@ -11,13 +11,16 @@ const {Parse, Render} = require('../build/index')
 // 渲染
 console.log('--- 开始解析 ---')
 console.time('解析耗时')  
-const parse = new Parse(path.resolve(__dirname, './static/test.psd'))
+const parse = new Parse(path.resolve(__dirname, './static/test3.psd'))
+// parse.getBase64().then(res => {
+//   console.log(res)
+// })
 parse.getTemplate().then(res => {
   console.timeEnd('解析耗时') 
   console.log('--- 解析成功 ---')
   const render = new Render(res, {
-    outPath: path.join(__dirname, '/static/test.png'),
-    bodyImage: path.join(__dirname, '/static/p1.png'),
+    outPath: path.join(__dirname, '/static/test1.png'),
+    bodyImage: path.join(__dirname, '/static/p4.png'),
     mainText: '骑上我心爱小摩托',
     subText: '它拥有不会易堵车',
     actionText: '啦啦啦啦',

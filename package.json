@@ -1,9 +1,12 @@
 {
   "name": "aids-core",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "build/index.js",
-  "files": ["/build", "/src"],
+  "files": [
+    "/build",
+    "/src"
+  ],
   "scripts": {
     "build": "babel src -d build --extensions '.ts,.tsx'",
     "test": "node test/index.js"

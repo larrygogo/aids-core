@@ -41,9 +41,15 @@ class Parse {
       let buffers = [];
       image.pack(); // [1]
 
-      image.on('error', reject);
-      image.on('data', data => buffers.push(data));
-      image.on('end', () => resolve('data:image/png;base64,' + _buffer.Buffer.concat(buffers)));
+      image.on('data', chunk => {
+        buffers.push(chunk); // [2]
+      });
+      image.on('end', () => {
+        resolve(`data:image/png;base64,${_buffer.Buffer.concat(buffers).toString('base64')}`); // [3]
+      });
+      image.on('error', err => {
+        reject(err);
+      });
     });
   }
 

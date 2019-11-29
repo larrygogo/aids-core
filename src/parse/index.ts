@@ -26,11 +26,17 @@ export default class Parse {
         return new Promise((resolve, reject) => {
             let buffers = [];
             image.pack();  // [1]
-            image.on('error', reject);
-            image.on('data', (data) => buffers.push(data))
-            image.on('end', () => resolve('data:image/png;base64,' + Buffer.concat(buffers)))
+            image.on('data', (chunk) => {
+                buffers.push(chunk);  // [2]
+            });
+            image.on('end', () => {
+                resolve(`data:image/png;base64,${Buffer.concat(buffers).toString('base64')}`);  // [3]
+            });
+            image.on('error', (err) => {
+                reject(err);
+            });
         });
-        
+
     }
 
     async getTemplate() {
@@ -43,11 +49,11 @@ export default class Parse {
         let children = this.psd.children()
         children.reverse()
         for (let [key, item] of children.entries()) {
-            let layer, 
+            let layer,
                 layerInfo = Layer.getLayerInfo(item.name)
-            if(layerInfo.type && layerInfo.type === 'text') {
+            if (layerInfo.type && layerInfo.type === 'text') {
                 layer = await TextLayer.createLayer(item)
-            } else if(layerInfo.type && layerInfo.type === 'image') {
+            } else if (layerInfo.type && layerInfo.type === 'image') {
                 layer = await ImageLayer.createLayer(item)
             }
             this.template.addLayer(layer)
