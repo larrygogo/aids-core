@@ -12,7 +12,6 @@ export default class ImageLayer extends Layer {
 
     resize(img) {
         let { width, height } = this
-        console.log(width, height)
         let itemRatio = width / height
         let sizeRatio = img.width / img.height
         if (sizeRatio < itemRatio) {

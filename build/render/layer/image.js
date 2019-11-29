@@ -20,18 +20,15 @@ class ImageLayer extends _layer.Layer {
       width,
       height
     } = this;
-    console.log(width, height);
     let itemRatio = width / height;
     let sizeRatio = img.width / img.height;
 
     if (sizeRatio < itemRatio) {
       this.width = height / img.height * img.width;
       this.x -= (this.width - width) / 2;
-      console.log(111);
     } else {
       this.height = width / img.width * img.height;
       this.y -= (this.height - height) / 2;
-      console.log(222);
     }
 
     let canvas = (0, _canvas.createCanvas)(this.width, this.height);
