@@ -3,16 +3,34 @@ import ImageLayer from './layer/image';
 import TextLayer from './layer/text';
 import Template from './base/template';
 import Layer from './base/layer';
+import { Buffer } from 'buffer';
 
 export default class Parse {
+    private url
     private psd
     private template
 
     constructor(url) {
+        this.url = url
         let psd = PSD.fromFile(url);
         psd.parse()
         this.psd = psd.tree()
         this.template = new Template(url, this.psd.coords.right - this.psd.coords.left, this.psd.coords.bottom - this.psd.coords.top)
+    }
+
+    async getBase64() {
+        let url = this.url
+        let psd = PSD.fromFile(url);
+        psd.parse();
+        let image = psd.image.toPng()
+        return new Promise((resolve, reject) => {
+            let buffers = [];
+            image.pack();  // [1]
+            image.on('error', reject);
+            image.on('data', (data) => buffers.push(data))
+            image.on('end', () => resolve('data:image/png;base64,' + Buffer.concat(buffers)))
+        });
+        
     }
 
     async getTemplate() {
