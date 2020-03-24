@@ -1,4 +1,4 @@
-import PSD from 'psd-parser'
+import PSD from '../lib/psd-parser';
 import ImageLayer from './layer/image';
 import TextLayer from './layer/text';
 import Template from './base/template';
@@ -27,6 +27,8 @@ export default class Parse {
             let layer,
                 layerInfo = Layer.getLayerInfo(item.additional.luni)
             if (layerInfo.type && layerInfo.type === 'text') {
+                //  查看字体
+                // console.log(item.additional['TySh'].textData.EngineData.ResourceDict.FontSet)
                 layer = new TextLayer(item)
             } else if (layerInfo.type && layerInfo.type === 'image') {
                 layer = new ImageLayer(item)

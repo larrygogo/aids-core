@@ -1,6 +1,6 @@
 {
   "name": "aids-core",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "",
   "main": "build/index.js",
   "files": [
@@ -8,15 +8,17 @@
     "/src"
   ],
   "scripts": {
-    "build": "babel src -d build --extensions '.ts,.tsx'",
+    "build": "babel src -d build --extensions '.js,.ts,.tsx'",
     "test": "node test/index.js"
   },
   "author": "larryzheng",
   "license": "MIT",
   "dependencies": {
     "canvas": "^2.6.0",
-    "psd-parser": "^0.1.6",
-    "uint8": "^1.0.0"
+    "iconv-lite": "^0.5.1",
+    "jspack": "^0.0.4",
+    "parse-engine-data": "^0.1.2",
+    "pngjs": "^3.4.0"
   },
   "repository": {
     "type": "git",

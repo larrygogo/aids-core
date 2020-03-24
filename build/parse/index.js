@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _psdParser = _interopRequireDefault(require("psd-parser"));
+var _psdParser = _interopRequireDefault(require("../lib/psd-parser"));
 
 var _image = _interopRequireDefault(require("./layer/image"));
 
@@ -39,6 +39,8 @@ class Parse {
           layerInfo = _layer.default.getLayerInfo(item.additional.luni);
 
       if (layerInfo.type && layerInfo.type === 'text') {
+        //  查看字体
+        // console.log(item.additional['TySh'].textData.EngineData.ResourceDict.FontSet)
         layer = new _text.default(item);
       } else if (layerInfo.type && layerInfo.type === 'image') {
         layer = new _image.default(item);

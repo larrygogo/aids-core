@@ -11,19 +11,16 @@ class TextLayer extends _layer.Layer {
   constructor(layerNode) {
     super(layerNode);
     this.text = layerNode.text;
-    console.log(this.text);
   }
 
   draw(ctx) {
-    console.log(this.text);
-    ctx.textBaseline = 'ideographic';
     ctx.save();
+    ctx.textBaseline = 'ideographic';
     ctx.font = `${this.text.fontSize} "${this.text.fontFamily}"`; // ctx.textAlign = this.alignment;
 
     ctx.letterSpacing = parseInt(this.text.letterSpacing);
     ctx.fillStyle = this.text.color;
     ctx.fillText = this._fillText(ctx);
-    console.log(this.text);
     ctx.fillText(this.text.value, this.x, this.y);
     ctx.restore();
   }
@@ -44,7 +41,7 @@ class TextLayer extends _layer.Layer {
           y,
           _this = this;
 
-      str = arguments[0], x = arguments[1], y = arguments[2], args = 4 <= arguments.length ? __slice.call(arguments, 3) : [];
+      str = arguments[0], x = arguments[1], y = arguments[2] - 10, args = 4 <= arguments.length ? __slice.call(arguments, 3) : [];
 
       if (_this.letterSpacing == NaN || _this.letterSpacing === 0) {
         let a = [str, x, y].concat(args);

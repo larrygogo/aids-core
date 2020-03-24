@@ -23,7 +23,7 @@ export default class Render {
         this.ctx = this.canvas.getContext('2d');
     }
 
-    run() {
+    run(): void {
         let children = this.template.layers
         children.reverse()
         for (let item of children) {
@@ -37,6 +37,7 @@ export default class Render {
                 
             } 
             else if(item.type === 'text'){
+                console.log(item)
                 let layer = new TextLayer(item as TextLayerInterface)
                 if(item.layer === 'text_action' && this.options.actionText) {
                     layer.changeValue(this.options.actionText)
@@ -59,7 +60,7 @@ export default class Render {
     /**
    * 注册字体
    */
-    private _registerFont(dir: string, fontList: Array<FontOption>) {
+    private _registerFont(dir: string, fontList: Array<FontOption>): void {
         // Register more font
         fontList.forEach(item => {
             registerFont(path.join(dir, item.path), { family: item.family });

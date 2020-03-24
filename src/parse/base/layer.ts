@@ -25,7 +25,7 @@ export default abstract class Layer implements LayerInterface{
         return LAYER_INFO[name] || {name: null, type: null, zIndex: null, category: null}
     }
 
-    private _setLayerInfo(name) {
+    private _setLayerInfo(name): void {
         let layerInfo = Layer.getLayerInfo(name)
         this.name = name
         this.type = layerInfo.type

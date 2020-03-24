@@ -8,20 +8,19 @@ const {
 
 
 // 测试psd-parser
-const parse = new Parse(path.resolve(__dirname, './static/test.psd'))
+const parse = new Parse(path.resolve(__dirname, './static/test4.psd'))
 console.log('--- 开始解析 ---')
 console.time('解析耗时')
 let res = parse.getTemplate()
 fs.writeFileSync(path.join(__dirname, './static/test.json'), JSON.stringify(res))
 console.timeEnd('解析耗时')
 console.log('--- 解析成功 ---')
-
 const render = new Render(res, {
     outPath: path.join(__dirname, '/static/test.png'),
     bodyImage: path.join(__dirname, '/static/p1.png'),
-    mainText: '骑上我心爱小摩托',
-    subText: '它拥有不会易堵车',
-    actionText: '啦啦啦啦',
+    mainText: '全球狂欢节',
+    subText: '电子数码年中备货节',
+    actionText: '销量突破千万件',
     font: fonts
 })
 console.log('--- 开始渲染 ---')

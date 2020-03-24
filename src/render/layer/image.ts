@@ -16,14 +16,10 @@ export default class ImageLayer extends Layer {
         let sizeRatio = img.width / img.height
         if (sizeRatio < itemRatio) {
             this.width = height / img.height * img.width
-            this.height = this.height
-            this.x += (height - this.height) / 2
-            this.y += (width - this.width) / 2
+            this.x -= (this.width - width) / 2
         } else {
-            this.width = img.width
             this.height = width / img.width * img.height
-            this.x += (height - this.height) / 2
-            this.y += (width - this.width) / 2
+            this.y -= (this.height - height) / 2
         }
     }
 

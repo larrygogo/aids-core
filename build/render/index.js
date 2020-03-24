@@ -42,6 +42,7 @@ class Render {
 
         layer.draw(this.ctx);
       } else if (item.type === 'text') {
+        console.log(item);
         let layer = new _text.default(item);
 
         if (item.layer === 'text_action' && this.options.actionText) {
