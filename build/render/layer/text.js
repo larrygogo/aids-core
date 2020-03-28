@@ -39,7 +39,8 @@ class TextLayer extends _layer.Layer {
           str,
           x,
           y,
-          _this = this;
+          _this = this; // y轴向下偏移修正
+
 
       str = arguments[0], x = arguments[1], y = arguments[2] - 10, args = 4 <= arguments.length ? __slice.call(arguments, 3) : [];
 

@@ -1,5 +1,5 @@
-import { Canvas, createCanvas, registerFont, loadImage } from 'canvas';
 import { TemplateInterface, RenderOptions, FontOption, ImageLayerInterface, TextLayerInterface } from '../types';
+import { Canvas, createCanvas, registerFont, loadImage } from 'canvas';
 import ImageLayer from './layer/image';
 import TextLayer from './layer/text';
 import path from 'path';
@@ -37,7 +37,6 @@ export default class Render {
                 
             } 
             else if(item.type === 'text'){
-                console.log(item)
                 let layer = new TextLayer(item as TextLayerInterface)
                 if(item.layer === 'text_action' && this.options.actionText) {
                     layer.changeValue(this.options.actionText)

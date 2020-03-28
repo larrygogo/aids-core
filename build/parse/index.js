@@ -21,8 +21,10 @@ class Parse {
   constructor(url) {
     let psd = _psdParser.default.parse(url);
 
+    this.psd = psd;
     this._layers = psd.getDescendants();
     this._psd = psd._psd_;
+    this.slices = psd.getSlices();
     this._template = new _template.default(url, this._psd.header.width, this._psd.header.height);
   }
 
@@ -30,6 +32,10 @@ class Parse {
     this._parseNode();
 
     return this._template;
+  }
+
+  saveCover(path) {
+    this._psd.imageData.saveAsPng(path);
   } // 解析节点
 
 
@@ -40,7 +46,6 @@ class Parse {
 
       if (layerInfo.type && layerInfo.type === 'text') {
         //  查看字体
-        // console.log(item.additional['TySh'].textData.EngineData.ResourceDict.FontSet)
         layer = new _text.default(item);
       } else if (layerInfo.type && layerInfo.type === 'image') {
         layer = new _image.default(item);
